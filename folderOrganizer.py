@@ -57,13 +57,19 @@ def displayFolders():
         print(f"    {num}) {folder.name}")
     return foldersList
 
-def chooseFolder():
+def chooseFolder():     #needs to repeat if the wrong folder is chosen. also need to add an option go to back yet still keeping the same file(s) that was selected 
     while True:
-            choice = input("Choose a file number (q to quit): ").strip().lower()
+            choice = input("Choose a folder number (q to quit): ").strip().lower()
+            wrongFolder = input("Move to this folder? y/n: ").strip().lower()
             if choice == "q":
                 sys.exit(0)
             if choice.isdigit() and 1 <= int(choice) <= len(folderList):
-                return folderList[int(choice) - 1]
+                if wrongFolder == "n":
+                    continue
+                if wrongFolder == "y":
+                    chosenFolder = folderList[int(choice) - 1] 
+                    print(f"File was moved into: {chosenFolder.name}.")
+                    return folderList[int(choice) - 1] 
             print("Invalid choice, try again")
 
 
