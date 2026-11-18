@@ -62,14 +62,14 @@ def chooseFolder(folderList):
             choice = input("Choose a folder number (q to quit): ").strip().lower()
             if choice == "q":
                 sys.exit(0)
-                if choice.isdigit() and 1 <= int(choice) <= len(folderList):
-                    wrongFolder = input("Move to this folder? y/n: ").strip().lower()
-                    if wrongFolder == "n":
-                        continue
-                    if wrongFolder == "y":
-                        chosenFolder = folderList[int(choice) - 1] 
-                        print(f"File was moved into: {chosenFolder.name}.")
-                        return folderList[int(choice) - 1] 
+            if choice.isdigit() and 1 <= int(choice) <= len(folderList):
+                wrongFolder = input("Move to this folder? y/n: ").strip().lower()
+                if wrongFolder == "n":
+                    continue
+                if wrongFolder == "y":
+                    chosenFolder = folderList[int(choice) - 1] 
+                    print(f"File was moved into: {chosenFolder.name}.")
+                    return folderList[int(choice) - 1] 
             print("Invalid choice, try again")
 
 def main():
