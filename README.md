@@ -6,5 +6,5 @@
 3. Function to which folder we want to place selected files	DONE
 	-> if there are subfolders add an option to save into those aswell
 4. Need to add a function if the wrong folder is selected an option to go back to pick the right one DONE
-5. Function to move more files or exit the program
+5. Function to move more files or exit the program DONE
 

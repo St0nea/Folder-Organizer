@@ -57,7 +57,7 @@ def displayFolders():
         print(f"    {num}) {folder.name}")
     return foldersList
 
-def chooseFolder():     #needs to repeat if the wrong folder is chosen. also need to add an option go to back yet still keeping the same file(s) that was selected 
+def chooseFolder(folderList):
     while True:
             choice = input("Choose a folder number (q to quit): ").strip().lower()
             wrongFolder = input("Move to this folder? y/n: ").strip().lower()
@@ -72,22 +72,30 @@ def chooseFolder():     #needs to repeat if the wrong folder is chosen. also nee
                     return folderList[int(choice) - 1] 
             print("Invalid choice, try again")
 
+def main():
+    while True: 
+        files = displayFiles()
+        if not files:
+            print("nothing to organize")
+            sys.exit(0)
+
+        selected = chooseFile(files)
+
+        folderListDisplay = displayFolders()
+        target = chooseFolder(folderListDisplay)
+
+        for f in selected:
+            destination = target / f.name
+            if destination.exists():
+                print(f"skipped {f.name}: already exists in {target.name}")
+                continue
+            shutil.move(str(f), str(destination))
+            print(f"Moved {f.name} -> {target.name}")
+        moveMoreFiles = input("Do you want to move more files? y/n: ").strip().lower()
+        if moveMoreFiles == "y":
+            main()
+        if moveMoreFiles == "n":
+            break
 
 if __name__ == "__main__":
-    files = displayFiles()
-    if not files:
-        print("nothing to organize")
-        sys.exit(0)
-
-    selected = chooseFile(files)
-
-    folderList = displayFolders()
-    target = chooseFolder()
-
-    for f in selected:
-        destination = target / f.name
-        if destination.exists():
-            print(f"skipped {f.name}: already exists in {target.name}")
-            continue
-        shutil.move(str(f), str(destination))
-        print(f"Moved {f.name} -> {target.name}")
+    main()
