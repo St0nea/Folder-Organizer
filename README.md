@@ -8,3 +8,13 @@
 4. Need to add a function if the wrong folder is selected an option to go back to pick the right one DONE
 5. Function to move more files or exit the program DONE
 
+## TO ADD:
+- Catch failed moves.
+- Number ranges
+- Create a new folder from the folder prompt
+- A “back” option
+- A summary at the end
+- Auto-sort
+- An undo
+- Run it with a double click
+- A window instead of a terminal 
