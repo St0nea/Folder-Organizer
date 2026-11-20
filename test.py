@@ -81,11 +81,24 @@ def chooseFolder(folderList):
                     return folderList[int(choice) - 1] 
             print("Invalid choice, try again")
 
+def moveFile(selected, target):
+    skippedFiles = []
+    movedFiles = []
+    for f in selected:
+        destination = target / f.name
+        if destination.exists():
+            skippedFiles.append(f.name)
+            continue
+        shutil.move(str(f), str(destination))
+        movedFiles.append(f.name)
+    
+    return skippedFiles, movedFiles
+
 #MAIN
 def main():
     while True: 
-        groups = scanFiles()
-        files = displayFiles(groups)
+        scanFile = scanFiles()
+        files = displayFiles(scanFile)
         if not files:
             print("nothing to organize")
             sys.exit(0)
@@ -96,16 +109,23 @@ def main():
         folderListDisplay = displayFolders(scanFolder)
         target = chooseFolder(folderListDisplay)
 
-        for f in selected:
-            destination = target / f.name
-            if destination.exists():
-                print(f"skipped {f.name}: already exists in {target.name}")
-                continue
-            shutil.move(str(f), str(destination))
-            print(f"Moved {f.name} -> {target.name}")
-        moveMoreFiles = input("Do you want to move more files? y/n: ").strip().lower()
+        skippedFiles, movedFiles = moveFile(selected, target)
+        
+        for mFile in movedFiles:
+            print(f"Moved file: {mFile}")
+
+        for sFile in skippedFiles:
+            print(f"Files skipped: {sFile}")
+        
+        while True:
+            moveMoreFiles = input("Do you want to move more files? y/n: ").strip().lower()
+            moveMoreAns = ("y", "n")
+            if moveMoreFiles not in moveMoreAns:
+                print("Invalid answer, try again")
+            else:
+                break
         if moveMoreFiles == "y":
-            main()
+            continue
         if moveMoreFiles == "n":
             break
 
