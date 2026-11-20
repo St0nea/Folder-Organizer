@@ -10,6 +10,7 @@
 
 ## TO ADD:
 - Catch failed moves.
+	- a loop with a counter and a short pause, using time.sleep. Leave it until the basic version works.
 - Number ranges
 - Create a new folder from the folder prompt
 - A “back” option

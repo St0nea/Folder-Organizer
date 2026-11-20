@@ -84,15 +84,20 @@ def chooseFolder(folderList):
 def moveFile(selected, target):
     skippedFiles = []
     movedFiles = []
+    caughtError = []
+    
     for f in selected:
         destination = target / f.name
         if destination.exists():
             skippedFiles.append(f.name)
             continue
-        shutil.move(str(f), str(destination))
-        movedFiles.append(f.name)
+        try:
+            shutil.move(str(f), str(destination))
+            movedFiles.append(f.name)
+        except EOFError as e:
+            caughtError.append(e)
     
-    return skippedFiles, movedFiles
+    return skippedFiles, movedFiles, caughtError
 
 #MAIN
 def main():
@@ -109,13 +114,16 @@ def main():
         folderListDisplay = displayFolders(scanFolder)
         target = chooseFolder(folderListDisplay)
 
-        skippedFiles, movedFiles = moveFile(selected, target)
+        skippedFiles, movedFiles, caughtError = moveFile(selected, target, caughtError)
         
         for mFile in movedFiles:
             print(f"Moved file: {mFile}")
 
         for sFile in skippedFiles:
             print(f"Files skipped: {sFile}")
+
+        for errors in caughtError:  #NEEDS TO BE TESTED
+            print(f"ERRORS: {errors}\n")
         
         while True:
             moveMoreFiles = input("Do you want to move more files? y/n: ").strip().lower()
