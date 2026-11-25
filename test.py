@@ -49,6 +49,20 @@ def chooseFile(files):
             sys.exit(0)
 
         parts = choice.split()
+        multipleFiles = set()
+
+        for part in parts:
+            if "-" in part:
+                numbers = part.split("-")
+                num = int(numbers)
+                if num.isdigit():
+                    if len(numbers) == 2:
+                        multipleFiles.update(num)
+                        print(multipleFiles)
+                        print("this is a number")
+                    else:
+                        print("Too many numbers!")
+
 
         if parts and all(p.isdigit() and 1 <= int(p) <= len(files) for p in parts):
             return [files[i - 1] for i in sorted(set(int(p) for p in parts))]
@@ -114,7 +128,7 @@ def main():
         folderListDisplay = displayFolders(scanFolder)
         target = chooseFolder(folderListDisplay)
 
-        skippedFiles, movedFiles, caughtError = moveFile(selected, target, caughtError)
+        skippedFiles, movedFiles, caughtError = moveFile(selected, target)
         
         for mFile in movedFiles:
             print(f"Moved file: {mFile}")
